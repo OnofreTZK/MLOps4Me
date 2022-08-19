@@ -1,4 +1,0 @@
-artifact_location: file:///home/onofre/PersonalProjects/studies/MLOpsStudies/MLOps4Me/mlruns/1
-experiment_id: '1'
-lifecycle_stage: active
-name: naive_bayes_experiment

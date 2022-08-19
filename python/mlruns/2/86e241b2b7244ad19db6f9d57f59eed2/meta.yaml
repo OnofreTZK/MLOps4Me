@@ -1,0 +1,15 @@
+artifact_uri: file:///home/onofre/Personal/studies/MLOps/MLOps4Me/python/mlruns/2/86e241b2b7244ad19db6f9d57f59eed2/artifacts
+end_time: 1660916860897
+entry_point_name: ''
+experiment_id: '2'
+lifecycle_stage: active
+name: ''
+run_id: 86e241b2b7244ad19db6f9d57f59eed2
+run_uuid: 86e241b2b7244ad19db6f9d57f59eed2
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1660916857157
+status: 3
+tags: []
+user_id: onofre
