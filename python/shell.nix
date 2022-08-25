@@ -1,19 +1,30 @@
-with import <nixpkgs> {};
+let
+  nixpkgs = import <nixpkgs> {};
+  mach-nix = import (builtins.fetchGit {
+    url = "https://github.com/DavHau/mach-nix";
+    ref = "refs/tags/3.5.0";
+  }) {};
+  pyEnv = mach-nix.mkPython rec {
 
-pkgs.mkShell {
-
-  name = "Shell name";
-  buildInputs = [
-    (let
-      my-specific-libs = python-packages: with python-packages; [
-        pandas
-        scikit-learn
-        matplotlib
+    requirements = ''
+        pip
+        gunicorn
         mlflow
-        python3.pkgs.pip
-      ];
-      python3-with-libs = python3.withPackages my-specific-libs;
-     in
-     python3-with-libs)
-  ];
+        pandas
+        sklearn
+        matplotlib
+        keras
+        tensorflow
+    '';
+
+  };
+in
+mach-nix.nixpkgs.mkShell {
+
+  buildInputs = [
+    pyEnv
+  ] ;
+
+  shellHook = ''
+  '';
 }
