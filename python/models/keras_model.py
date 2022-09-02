@@ -41,3 +41,52 @@ y_training = np_utils.to_categorical(y_training, 10)
 y_test = np_utils.to_categorical(y_test, 10)
 
 print(y_test[0])
+
+def train_deep_learn(n_hidden_layers, n_units, activation, drop_out, epochs):
+    mlflow.set_experiment("DLExperiment")
+
+    with mlflow.start_run():
+
+        mlflow.tensorflow.autolog()
+
+        model = Sequential()
+
+        # Create the hidden layer and the input layer
+        model.add(Dense(units=n_units, activation=activation, input_dim=784))
+        # input_dim -> number of neurons of the input label
+        # 1 neuron per pixel
+        # the array is 28x28 which has 784 pixels
+        model.add(Dropout(drop_out))
+
+        # aditional hidden layers, with drop out
+        for n in range(n_hidden_layers):
+            model.add(Dense(units=n_units, activation=activation))
+            model.add(Dropout(drop_out))
+
+        # Output layer
+        model.add(Dense(units=10, activation='softmax'))
+
+        model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+        model.summary()
+
+        historic = model.fit(x_training, y_training, epochs=epochs,
+                             validation_data=(x_test, y_test))
+
+        # graphic for errors and accuracy
+        historic.history.keys()
+        loss = plt.plot(historic.history['val_loss'])
+        plt.savefig("../images/keras_loss.png")
+        accuracy = plt.plot(historic.history['val_accuracy'])
+        plt.savefig('../images/keras_accuracy.png')
+
+        mlflow.log_artifact('../images/keras_loss.png')
+        mlflow.log_artifact('../images/keras_accuracy.png')
+
+
+        # execution info
+        print("Model: ", mlflow.active_run().info.run_uuid)
+
+    mlflow.end_run()
+
+train_deep_learn(2, 16, 'relu', 0.2, 2,)
