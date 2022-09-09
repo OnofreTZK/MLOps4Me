@@ -89,4 +89,19 @@ def train_deep_learn(n_hidden_layers, n_units, activation, drop_out, epochs):
 
     mlflow.end_run()
 
+number_hidden_layers = [1, 2, 3]
+number_units = [16, 32, 64]
+activations = ['relu', 'tanh']
+drop_out = [0.1, 0.2]
+epochs = [5, 10, 20]
+
+# ?????
+for layer in number_hidden_layers:
+    for unit in number_units:
+        for activation in activations:
+            for drop in drop_out:
+                for epoc in epochs:
+                    train_deep_learn(layer, unit, activation, drop, epoc)
+# What an ugly code...
+
 train_deep_learn(2, 16, 'relu', 0.2, 2,)
