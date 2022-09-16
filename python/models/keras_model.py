@@ -49,6 +49,13 @@ def train_deep_learn(n_hidden_layers, n_units, activation, drop_out, epochs):
 
         mlflow.tensorflow.autolog()
 
+        # Registering tags
+        mlflow.set_tag("n_hidden_layers", n_hidden_layers)
+        mlflow.set_tag("n_units", n_units)
+        mlflow.set_tag("activation", activation)
+        mlflow.set_tag("drop_out", drop_out)
+        mlflow.set_tag("epochs", epochs)
+
         model = Sequential()
 
         # Create the hidden layer and the input layer
@@ -76,12 +83,12 @@ def train_deep_learn(n_hidden_layers, n_units, activation, drop_out, epochs):
         # graphic for errors and accuracy
         historic.history.keys()
         loss = plt.plot(historic.history['val_loss'])
-        plt.savefig("../images/keras_loss.png")
+        plt.savefig("./images/keras_loss.png")
         accuracy = plt.plot(historic.history['val_accuracy'])
-        plt.savefig('../images/keras_accuracy.png')
+        plt.savefig('./images/keras_accuracy.png')
 
-        mlflow.log_artifact('../images/keras_loss.png')
-        mlflow.log_artifact('../images/keras_accuracy.png')
+        mlflow.log_artifact('./images/keras_loss.png')
+        mlflow.log_artifact('./images/keras_accuracy.png')
 
 
         # execution info
@@ -96,12 +103,15 @@ drop_out = [0.1, 0.2]
 epochs = [5, 10, 20]
 
 # ?????
-for layer in number_hidden_layers:
-    for unit in number_units:
-        for activation in activations:
-            for drop in drop_out:
-                for epoc in epochs:
-                    train_deep_learn(layer, unit, activation, drop, epoc)
+def parameters():
+    for layer in number_hidden_layers:
+        for unit in number_units:
+            for activation in activations:
+                for drop in drop_out:
+                    for epoc in epochs:
+                        train_deep_learn(layer, unit, activation, drop, epoc)
 # What an ugly code...
 
-train_deep_learn(2, 16, 'relu', 0.2, 2,)
+#train_deep_learn(2, 16, 'relu', 0.2, 2,)
+
+train_deep_learn(2, 64, 'relu', 0.2, 50)
